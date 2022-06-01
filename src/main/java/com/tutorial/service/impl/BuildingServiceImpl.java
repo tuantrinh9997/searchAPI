@@ -21,21 +21,13 @@ public class BuildingServiceImpl implements BuildingService{
 	private BuildingRepository buildingRepository;
 	@Autowired
 	private DistrictRepository districtRepository;
-
 	@Override
 	public List<BuildingSearchResponse> findByConditions(Map<String, String> params) {
 		List<BuildingSearchResponse> responses = new ArrayList<>();
 		if (!params.isEmpty() ) {
 			List<BuildingEntity> buildings = buildingRepository.findByConditions(params);
-
 			for (BuildingEntity building : buildings) {
 				BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
-
-				if (ValidateUtils.isNotNull(building.getCreatedDate())) {
-					buildingSearchResponse.setCreatedDate((building.getCreatedDate()));
-				} else {
-					buildingSearchResponse.setCreatedDate("No information!");
-				}
 				if (ValidateUtils.isNotNull(building.getName())) {
 					buildingSearchResponse.setName(building.getName());
 				} else {
@@ -47,7 +39,6 @@ public class BuildingServiceImpl implements BuildingService{
 				buildingSearchResponse.setAddress(buildAddress(street, ward, districtId));
 				if (ValidateUtils.isNotNull(building.getStreet()) && ValidateUtils.isNotNull(building.getWard())
 						&& ValidateUtils.isNotNull(building.getDistrictid())) {
-
 				} else {
 					buildingSearchResponse.setAddress("No information!");
 				}
@@ -66,14 +57,6 @@ public class BuildingServiceImpl implements BuildingService{
 				}
 				if (ValidateUtils.isNotNull(building.getRentPrice())) {
 					buildingSearchResponse.setRentPrice(building.getRentPrice());
-				}
-				if (ValidateUtils.isNotNull(building.getServiceFee())) {
-					buildingSearchResponse.setServiceFee(building.getServiceFee());
-				} else {
-					buildingSearchResponse.setServiceFee("No information!");
-				}
-				if (ValidateUtils.isNotNull(building.getBrokerageFee())) {
-					buildingSearchResponse.setBrokerageFee(building.getBrokerageFee());
 				}
 				responses.add(buildingSearchResponse);
 			}
